@@ -1,4 +1,4 @@
-# WebScraperTest
+# Moto Scraper
 
 This is a python-based web scraper for car auction websites set up on Docker with a PostgreSQL database.<br>
 Currently, it supports only one website: [otomoto.pl](https://otomoto.pl).
