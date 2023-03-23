@@ -21,7 +21,7 @@ This will set up a **PostgreSQL** and **Python** images as well as a full Postgr
 
 To view the changes and send queries on our database, you need to connect to the server of a database that has just been created.<br>
 To accomplish this, you can use a GUI tool like pgAdmin to configure the database.<br> 
-First, [start your container]().<br>
+First, [start your container](#starting-the-container).<br>
 Then you can open pgAdmin.<br>
 Next, you will need to add a new server in pgAdmin. <br>
 To do this, click on `Servers` in the left sidebar, then click on `Register` -> `Server...`.<br>
@@ -61,4 +61,3 @@ Or in **Docker Desktop** click on the `arrow(start)` symbol next to your contain
 Now you can open the folder cloned from github as a project in your favourite IDE(I suggest PyCharm) and run the `main` file.
 You should be able to see the same output in console as in your database.  
 
-### 
