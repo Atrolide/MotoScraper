@@ -1,6 +1,7 @@
 # WebScraperTest
 
-This is a python-based web scraper for car auction websites. Currently, it supports only one website: [otomoto.pl](https://otomoto.pl).
+This is a python-based web scraper for car auction websites set up on Docker with a PostgreSQL database.<br>
+Currently, it supports only one website: [otomoto.pl](https://otomoto.pl).
 
 ## Usage
 
@@ -19,14 +20,15 @@ This will set up a PostgreSQL database and python container based on the built D
 ### Database Configuration
 
 To configure the database, you can use a GUI tool like pgAdmin to configure the database. Once the containers are running, you can open pgAdmin.
-Next, you will need to add a new server in pgAdmin. To do this, click on "Servers" in the left sidebar, then click on "Register" > "Server...". 
+Next, you will need to add a new server in pgAdmin. To do this, click on `Servers` in the left sidebar, then click on `Register` -> `Server...`.
+Feel free to name the server as you wish! 
 
-In the "Connection" tab, enter the following:
+In the `Connection` tab, enter the following:
 
-- Host: localhost
-- Port: 5433
-- Username: postgres
-- Password: admin
+- Host: `localhost`
+- Port: `5433`
+- Username: `postgres`
+- Password: `admin`
 
 Then, click on the "Save" button to create the server. You should now be connected to the docker server. You should be able to see a database called `carprices` and a table called `cars`.
 
