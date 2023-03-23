@@ -37,6 +37,3 @@ Then, click on the "Save" button to create the server. You should now be connect
 Now you can open the folder cloned from github as a project in your favourite IDE(I suggest PyCharm) and run the `main` file.
 You should be able to see the same output in console as in your database.  
 
-
-
-
