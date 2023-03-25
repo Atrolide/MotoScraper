@@ -64,3 +64,5 @@ for page_num in range(1, 3):
             """, (title_text, price_text, year, mileage, engine_size, fuel_type))
         print(title_text, price_text, year, mileage, engine_size, fuel_type)
         conn.commit()
+
+# TODO: Add a file ot send a query to a db (select)
