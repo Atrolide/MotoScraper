@@ -1,3 +1,4 @@
+--CREATE A TABLE IF IT DOESN'T EXIST
 CREATE TABLE IF NOT EXISTS cars (
          id SERIAL PRIMARY KEY,
         name TEXT,
@@ -7,3 +8,4 @@ CREATE TABLE IF NOT EXISTS cars (
         engine_size TEXT,
          fuel_type TEXT
     );
+
