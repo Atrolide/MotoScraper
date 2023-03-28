@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = 'https://www.otomoto.pl/oferta/citroen-c4-exlusive1-65-drzwitylko-129-tys-kmimportxenonsliczny-ID6FpKLs.html'
+url = 'https://www.otomoto.pl/oferta/volkswagen-golf-salon-pl-raport-autodna-oryginalny-przebieg-2-komplety-kol-ID6Fp0pp.html'
 
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
