@@ -12,8 +12,9 @@ To use this scraper, you will need to download and install the following:
 - [PostgreSQL](https://www.postgresql.org/download/)
 
 Once you have installed these dependencies, you can clone this repository and navigate to the project directory using the command line. Then, run the following command:
-
-`docker-compose up --build`
+```bash
+docker-compose up --build
+```
 
 This will set up a **PostgreSQL** and **Python** images as well as a full Postgres database configuration using **Docker**.
 
@@ -43,7 +44,9 @@ Then, click on the "Save" button to create the server. You should now be connect
 If you want to stop the container and its server, using the command line navigate to the project directory. 
 Then, run the following command:
 
-`docker-compose down`
+```bash
+docker-compose down
+```
 
 Or in **Docker Desktop** click on the `square(stop)` symbol next to your container
 
@@ -52,7 +55,9 @@ Or in **Docker Desktop** click on the `square(stop)` symbol next to your contain
 If you want to start the container and its server, using the command line navigate to the project directory. 
 Then, run the following command:
 
-`docker-compose up`
+```bash
+docker-compose up
+```
 
 Or in **Docker Desktop** click on the `arrow(start)` symbol next to your container
 
