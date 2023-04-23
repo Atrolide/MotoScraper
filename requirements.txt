@@ -2,5 +2,7 @@ requests
 beautifulsoup4
 pandas
 psycopg2-binary
+discord
+networkx
 
 

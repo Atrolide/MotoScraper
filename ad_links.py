@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-#import TestSinglePage
 
 
 def get_ad_links():

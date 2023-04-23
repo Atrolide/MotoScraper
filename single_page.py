@@ -41,9 +41,3 @@ def scrapeOlx(link):
             horse_power = horse_power.replace(word_to_remove, "")
 
     return [brand, model, year, mileage, engine_size, fuel_type, horse_power]
-
-
-# scrapeOlx(
-#     'https://www.olx.pl/d/oferta/opel-signum-2-2-direct-automat-206-przebieg-do-oplat-sprowadzony-CID5-IDTDHS7.html?')
-# scrapeOlx('https://www.olx.pl/d/oferta/bmw-seria-1-1-6benz-2005rok-CID5-IDTSH20.html?')
-# scrapeOlx('https://www.olx.pl/d/oferta/peugeot-407-polift-1-6-hdi-CID5-IDTlcCd.html')

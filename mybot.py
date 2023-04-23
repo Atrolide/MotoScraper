@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands
-import main
 from single_page import scrapeOlx
 from ad_links import get_ad_links
 import tabulate
 import matplotlib.pyplot as plt
 from collections import Counter
 import networkx as nx
+import os
+from dotenv import load_dotenv
 
 intents = discord.Intents.default()
 
@@ -16,12 +17,6 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
-
-
-@bot.command(name='hello')
-async def say_hello(ctx):
-    await ctx.send(f'Hello, {ctx.author.name}!')
-
 
 @bot.command(name='jp2')
 async def say_hello(ctx):
@@ -179,6 +174,5 @@ async def scrape_olxnetwork(ctx):
 
     plt.show()
 
-
-
-bot.run('token')
+load_dotenv()
+bot.run(os.getenv('BOT_TOKEN'))
