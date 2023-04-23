@@ -3,6 +3,10 @@ from discord.ext import commands
 import main
 from single_page import scrapeOlx
 from ad_links import get_ad_links
+import tabulate
+import matplotlib.pyplot as plt
+from collections import Counter
+import networkx as nx
 
 intents = discord.Intents.default()
 
@@ -23,7 +27,24 @@ async def say_hello(ctx):
 async def say_hello(ctx):
     await ctx.send(f'JP2GMD')
 
+# NORMAL MESSAGES 
+# @bot.command(name='olx')
+# async def scrape_olx(ctx):
+#     # Call the scrape function
+#     links = get_ad_links()
+#     data = []
+#     for link in links:
+#         brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+#         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
+#
+#     # Send each list as a separate message
+#     for record in data:
+#         brand, model, year, mileage, engine_size, fuel_type, horse_power = record
+#         message = f"{brand} - {model} - {year} - {mileage} - {engine_size} - {fuel_type} - {horse_power}"
+#         await ctx.send(message)
+#
 
+# TABLE
 @bot.command(name='olx')
 async def scrape_olx(ctx):
     # Call the scrape function
@@ -31,14 +52,132 @@ async def scrape_olx(ctx):
     data = []
     for link in links:
         brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        data.append([brand, model, year, mileage, engine_size, fuel_type, horse_power])
+
+    # Create the table
+    headers = ["Brand", "Model", "Year", "Mileage", "Engine Size", "Fuel Type", "Horse Power"]
+    table = tabulate.tabulate(data, headers=headers)
+
+    # Split the table into chunks of 2000 characters
+    chunks = [table[i:i + 500] for i in range(0, len(table), 500)]
+
+    # Send each chunk as a separate message
+    for chunk in chunks:
+        await ctx.send("```" + chunk + "```")
+
+@bot.command(name='olxchart')
+async def scrape_olxchart(ctx):
+    # Call the scrape function
+    links = get_ad_links()
+    data = []
+    for link in links:
+        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
 
-    # Send each list as a separate message
-    for record in data:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power = record
-        message = f"{brand} - {model} - {year} - {mileage} - {engine_size} - {fuel_type} - {horse_power}"
-        await ctx.send(message)
+    # Get a list of all the brands
+    brands = [record[0] for record in data]
 
+    # Count the number of cars by brand
+    brand_counts = Counter(brands)
+
+    # Create a bar chart
+    plt.bar(brand_counts.keys(), brand_counts.values())
+
+    # Set the title and axis labels
+    plt.title('Number of Cars by Brand')
+    plt.xlabel('Brand')
+    plt.ylabel('Count')
+
+    # Save the plot to a file
+    plt.savefig('bar_chart.png')
+
+    # Send the plot as a message
+    with open('bar_chart.png', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+    # Show the plot
+    plt.show()
+
+
+@bot.command(name='olxscatter')
+async def scrape_olxscatter(ctx):
+    # Call the scrape function
+    links = get_ad_links()
+    data = []
+    for link in links:
+        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
+
+    # Get a list of all the mileage and year values
+    mileage = [record[3] for record in data]
+    year = [record[2] for record in data]
+
+    # Create a scatter plot
+    plt.scatter(year, mileage)
+
+    # Set the title and axis labels
+    plt.title('Mileage vs Year')
+    plt.xlabel('Year')
+    plt.ylabel('Mileage')
+
+    # Save the plot to a file
+    plt.savefig('scatter_plot.png')
+
+    # Send the plot as a message
+    with open('scatter_plot.png', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+    # Show the plot
+    plt.show()
+
+
+@bot.command(name='olxnetwork')
+async def scrape_olxnetwork(ctx):
+    # Call the scrape function
+    links = get_ad_links()
+    data = []
+    for link in links:
+        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
+
+    # Create a directed graph
+    G = nx.DiGraph()
+
+    # Add nodes for each brand, model, and fuel type
+    for brand, model, year, mileage, engine_size, fuel_type, horse_power in data:
+        G.add_node(brand)
+        G.add_node(model)
+        G.add_node(fuel_type)
+
+        # Add edges between the nodes
+        G.add_edge(brand, model)
+        G.add_edge(model, fuel_type)
+
+    # Set the positions of the nodes using the spring layout algorithm
+    pos = nx.spring_layout(G)
+
+    # Draw the graph
+    plt.figure(figsize=(10, 8))
+    nx.draw_networkx(G, pos, node_color='lightblue', node_size=800, font_size=10, with_labels=True)
+
+    # Set the axis labels and title
+    plt.xlabel('Car Brands, Models, and Fuel Types', fontsize=14)
+    plt.ylabel('')
+    plt.title('Relationships between Car Brands, Models, and Fuel Types', fontsize=16)
+
+    # Remove the axes and show the plot
+    plt.axis('off')
+
+    plt.savefig('network_plot.png')
+
+    # Send the plot as a message
+    with open('network_plot.png', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+    plt.show()
 
 
 
