@@ -22,7 +22,8 @@ async def on_ready():
 async def say_hello(ctx):
     await ctx.send(f'JP2GMD')
 
-# NORMAL MESSAGES 
+
+# NORMAL MESSAGES
 # @bot.command(name='olx')
 # async def scrape_olx(ctx):
 #     # Call the scrape function
@@ -59,6 +60,7 @@ async def scrape_olx(ctx):
     # Send each chunk as a separate message
     for chunk in chunks:
         await ctx.send("```" + chunk + "```")
+
 
 @bot.command(name='olxchart')
 async def scrape_olxchart(ctx):
@@ -173,6 +175,7 @@ async def scrape_olxnetwork(ctx):
         await ctx.send(file=picture)
 
     plt.show()
+
 
 load_dotenv()
 bot.run(os.getenv('BOT_TOKEN'))

@@ -1,22 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-import psycopg2
-
-conn = psycopg2.connect(
-    host="localhost",
-    database="carprices",
-    user="postgres",
-    password="admin",
-    port="5433"
-)
-
-cur = conn.cursor()
-cur.execute("""
-    TRUNCATE cars;
-""")
-conn.commit()
-
 url_template = 'https://www.otomoto.pl/osobowe?page={}'
 
 for page_num in range(1, 3):
@@ -27,36 +11,60 @@ for page_num in range(1, 3):
     elements = soup.find_all('article', {'data-testid': 'listing-ad'})
 
     for element in elements:
-        ad_title_h2 = element.find('h2', {'data-testid': 'ad-title'})
-        ad_price_span = element.find('span', {'class': 'ooa-1bmnxg7 eayvfn611'})
+        ad_title_link = element.find('h2', {'data-testid': 'ad-title'})
+        ad_url = ad_title_link.a['href']
 
-        title_text = ad_title_h2.text.strip()
-        price_text = ad_price_span.text.strip()
+        response = requests.get(ad_url)
+        soup = BeautifulSoup(response.content, 'html.parser')
 
-        ad_list_all = element.ul.find_all('li', {'class': 'ooa-1k7nwcr e19ivbs0'})
+        parent_div = soup.find('div', {'class': 'flex-container-main'})
 
-        try:
-            year = ad_list_all[0].text.strip()
-        except IndexError:
+        final_child_div = parent_div.find('div', {'class': 'flex-container-main__left'}) \
+            .find('div', {'class': 'offer-content offer-content--secondary'}) \
+            .find('div', {'class': 'offer-content__row om-offer-main'}) \
+            .find('div', {'class': 'offer-content__main-column'}) \
+            .find('div', {'class': 'parametersArea'}) \
+            .find('div', {'class': 'offer-params with-vin'})
+
+        # ...
+
+        child7_ul = None
+        if final_child_div:
+            child7_ul = final_child_div.find('ul', {'class': 'offer-params__list'})
+
+        if child7_ul:
+            child8_li = child7_ul.find_all('li', {'class': 'offer-params__item'})
+
+            brand = ''
+            model = ''
+            version = ''
             year = ''
-        try:
-            mileage = ad_list_all[1].text.strip()
-        except IndexError:
             mileage = ''
-        try:
-            engine_size = ad_list_all[2].text.strip()
-        except IndexError:
             engine_size = ''
-        try:
-            fuel_type = ad_list_all[3].text.strip()
-        except IndexError:
             fuel_type = ''
+            horse_power = ''
 
-        cur.execute("""
-            INSERT INTO cars (name, price, year, mileage, engine_size, fuel_type)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """, (title_text, price_text, year, mileage, engine_size, fuel_type))
-        print(title_text, price_text, year, mileage, engine_size, fuel_type)
-        conn.commit()
+            for child in range(0, len(child8_li)):
+                label = child8_li[child].find('span', {'class': 'offer-params__label'}).text.strip()
+                value = child8_li[child].find('div', {'class': 'offer-params__value'})
+                if value:
+                    value = value.text.strip()
 
-# TODO: Add a file ot send a query to a db (select)
+                if label == 'Marka pojazdu':
+                    brand = value if value else ''
+                elif label == 'Model pojazdu':
+                    model = value if value else ''
+                elif label == 'Wersja':
+                    version = value if value else ''
+                elif label == 'Rok produkcji':
+                    year = value if value else ''
+                elif label == 'Przebieg':
+                    mileage = value if value else ''
+                elif label == 'Pojemność skokowa':
+                    engine_size = value if value else ''
+                elif label == 'Rodzaj paliwa':
+                    fuel_type = value if value else ''
+                elif label == 'Moc':
+                    horse_power = value if value else ''
+
+            print(brand, model, version, year, mileage, engine_size, fuel_type, horse_power)
