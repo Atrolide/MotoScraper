@@ -26,8 +26,6 @@ for page_num in range(1, 3):
             .find('div', {'class': 'parametersArea'}) \
             .find('div', {'class': 'offer-params with-vin'})
 
-        # ...
-
         child7_ul = None
         if final_child_div:
             child7_ul = final_child_div.find('ul', {'class': 'offer-params__list'})

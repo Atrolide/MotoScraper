@@ -8,6 +8,7 @@ from collections import Counter
 import networkx as nx
 import os
 from dotenv import load_dotenv
+import webbrowser
 
 intents = discord.Intents.default()
 
@@ -17,6 +18,11 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+
+
+@bot.command()
+async def roll(ctx):
+    webbrowser.open_new_tab('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
 
 @bot.command(name='jp2')
 async def say_hello(ctx):
