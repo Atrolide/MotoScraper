@@ -2,12 +2,13 @@ import discord
 from discord.ext import commands
 from single_page import scrapeOlx
 from ad_links import get_ad_links
-import tabulate
 import matplotlib.pyplot as plt
 from collections import Counter
 import networkx as nx
 import os
 from dotenv import load_dotenv
+import pandas as pd
+
 
 intents = discord.Intents.default()
 
@@ -40,25 +41,26 @@ async def say_hello(ctx):
 #
 
 # TABLE
+
 @bot.command(name='olx')
 async def scrape_olx(ctx):
     # Call the scrape function
     links = get_ad_links()
     data = []
+
     for link in links:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
-        data.append([brand, model, year, mileage, engine_size, fuel_type, horse_power])
+        brand, model, year, mileage, engine_size, fuel_type, horse_power, price, images = scrapeOlx(link)
+        embed = discord.Embed(title=f"{brand} {model} ({year})",
+                              description=f"Mileage: {mileage} \nEngine Size: {engine_size}\nFuel Type: {fuel_type}\nHorse Power: {horse_power}\nPrice: {price}")
 
-    # Create the table
-    headers = ["Brand", "Model", "Year", "Mileage", "Engine Size", "Fuel Type", "Horse Power"]
-    table = tabulate.tabulate(data, headers=headers)
+        # Loop through the images and add a new image field for each one
+        for image in images:
+            embed.set_image(url=image)
+            print(embed)
+            await ctx.send(embed=embed)
 
-    # Split the table into chunks of 2000 characters
-    chunks = [table[i:i + 500] for i in range(0, len(table), 500)]
 
-    # Send each chunk as a separate message
-    for chunk in chunks:
-        await ctx.send("```" + chunk + "```")
+
 
 @bot.command(name='olxchart')
 async def scrape_olxchart(ctx):
