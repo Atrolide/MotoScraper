@@ -3,6 +3,7 @@ from discord.ext import commands
 from single_page import scrapeOlx
 from ad_links import get_ad_links
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 from collections import Counter
 import networkx as nx
 import os
@@ -23,9 +24,12 @@ async def on_ready():
 @bot.command(name="help")
 async def bot_help(ctx):
     embed = discord.Embed(title='Bot Help', description='List of available commands:', color=discord.Color.blue())
+    embed.set_image(url="https://cdn.discordapp.com/attachments/1090484337897648178/1109444270261284934/logov2.png")
     embed.add_field(name='/olx', value='Scraps the olx', inline=False)
     embed.add_field(name='/otomoto', value='Scraps otomoto', inline=False)
     # Add more fields for other commands
+
+
 
     await ctx.send(embed=embed)
 
@@ -68,10 +72,8 @@ async def _scrape_otomoto(ctx):
 
             embed = discord.Embed(title=title, description=description.strip())
             embed.add_field(name="Ad Link:", value=item['ad_link'])
+            # embed.set_image(url=item['src'])  # Add the image using the src value
             await ctx.send(embed=embed)
-        else:
-            await ctx.send("Invalid ad data.")
-
 
 @bot.command(name='olxchart')
 async def scrape_olxchart(ctx):
@@ -79,7 +81,7 @@ async def scrape_olxchart(ctx):
     links = get_ad_links()
     data = []
     for link in links:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        brand, model, year, mileage, engine_size, fuel_type, horse_power, price, img = scrapeOlx(link)
         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
 
     # Get a list of all the brands
@@ -88,13 +90,28 @@ async def scrape_olxchart(ctx):
     # Count the number of cars by brand
     brand_counts = Counter(brands)
 
+    # Create a larger figure to accommodate all the bars
+    num_brands = len(brand_counts)
+    min_bar_width = 0.3  # Minimum width of the bars
+    bar_width = max(min_bar_width, 0.8 / num_brands)
+    figsize_width = max(8, num_brands * bar_width * 1.5)  # Minimum width of 8 inches
+    plt.figure(figsize=(figsize_width, 6))
+    plt.subplots_adjust(bottom=0.3, left=0.1)  # Adjust margins
+
     # Create a bar chart
-    plt.bar(brand_counts.keys(), brand_counts.values())
+    plt.bar(brand_counts.keys(), brand_counts.values(), width=bar_width)
 
     # Set the title and axis labels
     plt.title('Number of Cars by Brand')
     plt.xlabel('Brand')
     plt.ylabel('Count')
+
+    # Rotate and align the X-axis tick labels
+    plt.xticks(rotation=45, ha='right')
+
+    # Set the Y-axis tick formatter to show only whole numbers
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
     # Save the plot to a file
     plt.savefig('bar_chart.png')
@@ -114,7 +131,7 @@ async def scrape_olxscatter(ctx):
     links = get_ad_links()
     data = []
     for link in links:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        brand, model, year, mileage, engine_size, fuel_type, horse_power, price, img = scrapeOlx(link)
         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
 
     # Get a list of all the mileage and year values
@@ -147,7 +164,7 @@ async def scrape_olxnetwork(ctx):
     links = get_ad_links()
     data = []
     for link in links:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
+        brand, model, year, mileage, engine_size, fuel_type, horse_power, price, img = scrapeOlx(link)
         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
 
         # Create a directed graph

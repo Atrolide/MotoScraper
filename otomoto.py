@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def _get_ad_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -10,6 +11,7 @@ def _get_ad_links(url):
     links = [element.find('h2', {'data-testid': 'ad-title'}).a['href'] for element in elements]
 
     return links
+
 
 def scrape_ad(url):
     response = requests.get(url)
@@ -32,7 +34,7 @@ def scrape_ad(url):
         .find('div', {'class': 'offer-params with-vin'})
 
     price = primary_child_div.find('span', {'class': 'offer-price__number'}).text.strip()
-    word_to_remove = "       PLN"
+    word_to_remove = " PLN"
     price = price.replace(word_to_remove, "")
     price = price + "PLN"
 
@@ -74,6 +76,7 @@ def scrape_ad(url):
 
     return data
 
+
 def scrape_otomoto():
     url_template = 'https://www.otomoto.pl/osobowe?page={}'
     data = []
@@ -84,7 +87,6 @@ def scrape_otomoto():
 
         for link in links:
             ad_data = scrape_ad(link)
-            if all(value for value in ad_data.values()):
-                data.append(ad_data)
+            data.append(ad_data)
 
     return data
