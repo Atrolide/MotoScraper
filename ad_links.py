@@ -22,12 +22,4 @@ def get_ad_links():
 
     return links
 
-    #
-    # for link in links:
-    #     brand, model, year, mileage, engine_size, horse_power = TestSinglePage.scrapeOlx(link)
-    #     results.append((brand, model, year, mileage, engine_size, horse_power))
-    #
-    # for result in results:
-    #     print(result)
 
-print(get_ad_links())

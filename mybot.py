@@ -7,40 +7,33 @@ from collections import Counter
 import networkx as nx
 import os
 from dotenv import load_dotenv
-import pandas as pd
-
+from otomoto import scrape_otomoto, _get_ad_links
 
 intents = discord.Intents.default()
 
-bot = commands.Bot(command_prefix='/', intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents, help_command=None)
+
 
 
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+
+@bot.command(name="help")
+async def bot_help(ctx):
+    embed = discord.Embed(title='Bot Help', description='List of available commands:', color=discord.Color.blue())
+    embed.add_field(name='/olx', value='Scraps the olx', inline=False)
+    embed.add_field(name='/otomoto', value='Scraps otomoto', inline=False)
+    # Add more fields for other commands
+
+    await ctx.send(embed=embed)
+
+
 @bot.command(name='jp2')
 async def say_hello(ctx):
     await ctx.send(f'JP2GMD')
 
-# NORMAL MESSAGES 
-# @bot.command(name='olx')
-# async def scrape_olx(ctx):
-#     # Call the scrape function
-#     links = get_ad_links()
-#     data = []
-#     for link in links:
-#         brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
-#         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
-#
-#     # Send each list as a separate message
-#     for record in data:
-#         brand, model, year, mileage, engine_size, fuel_type, horse_power = record
-#         message = f"{brand} - {model} - {year} - {mileage} - {engine_size} - {fuel_type} - {horse_power}"
-#         await ctx.send(message)
-#
-
-# TABLE
 
 @bot.command(name='olx')
 async def scrape_olx(ctx):
@@ -53,13 +46,31 @@ async def scrape_olx(ctx):
         embed = discord.Embed(title=f"{brand} {model} ({year})",
                               description=f"Mileage: {mileage} \nEngine Size: {engine_size}\nFuel Type: {fuel_type}\nHorse Power: {horse_power}\nPrice: {price}")
 
+        embed.add_field(name="Ad Link:", value=link)
         # Loop through the images and add a new image field for each one
         for image in images:
             embed.set_image(url=image)
-            print(embed)
             await ctx.send(embed=embed)
 
 
+@bot.command(name='otomoto')
+async def _scrape_otomoto(ctx):
+    ad_data = scrape_otomoto()
+
+    for item in ad_data:
+        if all(value for value in item.values()):
+            title = f"{item['brand']} {item['model']} ({item['year']})"
+            description = f"Mileage: {item['mileage']}\n" \
+                          f"Engine Size: {item['engine_size']}\n" \
+                          f"Fuel Type: {item['fuel_type']}\n" \
+                          f"Horse Power: {item['horse_power']}\n" \
+                          f"Price: {item['price']}"
+
+            embed = discord.Embed(title=title, description=description.strip())
+            embed.add_field(name="Ad Link:", value=item['ad_link'])
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("Invalid ad data.")
 
 
 @bot.command(name='olxchart')
@@ -139,7 +150,7 @@ async def scrape_olxnetwork(ctx):
         brand, model, year, mileage, engine_size, fuel_type, horse_power = scrapeOlx(link)
         data.append((brand, model, year, mileage, engine_size, fuel_type, horse_power))
 
-    # Create a directed graph
+        # Create a directed graph
     G = nx.DiGraph()
 
     # Add nodes for each brand, model, and fuel type
@@ -175,6 +186,7 @@ async def scrape_olxnetwork(ctx):
         await ctx.send(file=picture)
 
     plt.show()
+
 
 load_dotenv()
 bot.run(os.getenv('BOT_TOKEN'))

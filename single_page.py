@@ -53,9 +53,3 @@ def scrapeOlx(link):
             break
 
     return [brand, model, year, mileage, engine_size, fuel_type, horse_power, price, src_list]
-
-
-print(scrapeOlx(
-    'https://www.olx.pl/d/oferta/fso-polonez-caro-1-5-gle-87km-piekny-klasyk-1-wlascicel-od-nowosci-CID5-IDUfe4X.html'))
-print(scrapeOlx(
-    'https://www.olx.pl/d/oferta/seat-leon-1-6-benzyna-gaz-CID5-IDUsXOL.html'))
