@@ -44,6 +44,7 @@ async def scrape_olx(ctx):
     # Call the scrape function
     links = get_ad_links()
     data = []
+    embedList = []
 
     for link in links:
         brand, model, year, mileage, engine_size, fuel_type, horse_power, price, images = scrapeOlx(link)
@@ -54,12 +55,19 @@ async def scrape_olx(ctx):
         # Loop through the images and add a new image field for each one
         for image in images:
             embed.set_image(url=image)
-            await ctx.send(embed=embed)
+            embedList.append(embed)
+            if len(embedList) == 10:
+                await ctx.send(embeds=embedList)
+                embedList = []
+
+    if embedList:
+        await ctx.send(embeds=embedList)
 
 
 @bot.command(name='otomoto')
 async def _scrape_otomoto(ctx):
     ad_data = scrape_otomoto()
+    embedList = []
 
     for item in ad_data:
         if all(value for value in item.values()):
@@ -73,7 +81,15 @@ async def _scrape_otomoto(ctx):
             embed = discord.Embed(title=title, description=description.strip())
             embed.add_field(name="Ad Link:", value=item['ad_link'])
             embed.set_image(url=item['src'])  # Add the image using the src value
-            await ctx.send(embed=embed)
+
+            embedList.append(embed)
+            if len(embedList) == 10:
+                await ctx.send(embeds=embedList)
+                embedList = []
+
+    if embedList:
+        await ctx.send(embeds=embedList)
+
 
 @bot.command(name='olxchart')
 async def scrape_olxchart(ctx):
