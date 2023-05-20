@@ -1,19 +1,19 @@
 import discord
 from discord.ext import commands
-from single_page import scrapeOlx
-from ad_links import get_ad_links
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from collections import Counter
 import networkx as nx
 import os
 from dotenv import load_dotenv
-from otomoto import scrape_otomoto, _get_ad_links
+
+from Scrappers.single_page import scrapeOlx
+from Scrappers.ad_links import get_ad_links
+from Scrappers.otomoto import scrape_otomoto
 
 intents = discord.Intents.default()
 
 bot = commands.Bot(command_prefix='/', intents=intents, help_command=None)
-
 
 
 @bot.event
@@ -29,8 +29,6 @@ async def bot_help(ctx):
     embed.add_field(name='/otomoto', value='Scraps otomoto', inline=False)
     # Add more fields for other commands
 
-
-
     await ctx.send(embed=embed)
 
 
@@ -43,7 +41,6 @@ async def say_hello(ctx):
 async def scrape_olx(ctx):
     # Call the scrape function
     links = get_ad_links()
-    data = []
     embedList = []
 
     for link in links:
