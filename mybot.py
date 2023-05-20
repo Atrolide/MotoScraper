@@ -72,7 +72,7 @@ async def _scrape_otomoto(ctx):
 
             embed = discord.Embed(title=title, description=description.strip())
             embed.add_field(name="Ad Link:", value=item['ad_link'])
-            # embed.set_image(url=item['src'])  # Add the image using the src value
+            embed.set_image(url=item['src'])  # Add the image using the src value
             await ctx.send(embed=embed)
 
 @bot.command(name='olxchart')

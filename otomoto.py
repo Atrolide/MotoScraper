@@ -33,6 +33,9 @@ def scrape_ad(url):
         .find('div', {'class': 'parametersArea'}) \
         .find('div', {'class': 'offer-params with-vin'})
 
+    photo_div = soup.find_all('div', {'class': 'photo-item'})
+    photo_url = photo_div[0].find('img')['data-lazy'] if photo_div else None
+
     price = primary_child_div.find('span', {'class': 'offer-price__number'}).text.strip()
     word_to_remove = " PLN"
     price = price.replace(word_to_remove, "")
@@ -49,7 +52,8 @@ def scrape_ad(url):
         'fuel_type': '',
         'horse_power': '',
         'price': price,
-        'ad_link': url
+        'ad_link': url,
+        'src': photo_url
     }
 
     if parameters:
@@ -90,3 +94,6 @@ def scrape_otomoto():
             data.append(ad_data)
 
     return data
+
+
+scrape_otomoto()
