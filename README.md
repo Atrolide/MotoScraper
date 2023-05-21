@@ -1,6 +1,6 @@
 # Moto Scraper
 
-This is a python-based web scraper for car auction websites set up on Docker with a PostgreSQL database.<br>
+This is a python-based web scraper for car auction websites set up on a Discord Bot.<br>
 Currently, it supports two websites: <br>
 * [otomoto.pl](https://otomoto.pl)<br>
 * [olx.pl](https://www.olx.pl/motoryzacja)
