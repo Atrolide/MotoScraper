@@ -2,10 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_ad_links():
-    MAX_LINKS = 10
+def get_ad_links(car_brand, MAX_LINKS):
     links = []
-    url_template = 'https://www.olx.pl/motoryzacja/samochody/?page={}'
+    if car_brand:
+        url_template = f'https://www.olx.pl/motoryzacja/samochody/{car_brand}/?page={{}}'
+    else:
+            url_template = f'https://www.olx.pl/motoryzacja/samochody?page={{}}'
     page_num = 1
     retrieved_links = 0
 

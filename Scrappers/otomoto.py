@@ -81,9 +81,8 @@ def scrape_ad(url):
     return data
 
 
-def scrape_otomoto():
-    MAX_LINKS = 10
-    url_template = 'https://www.otomoto.pl/osobowe?page={}'
+def scrape_otomoto(car_brand, MAX_LINKS):
+    url_template = f'https://www.otomoto.pl/osobowe/{car_brand}?page={{}}'
     data = []
 
     for page_num in range(1, 999):
