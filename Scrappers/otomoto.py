@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def _get_ad_links(url):
+def get_ad_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -82,15 +82,39 @@ def scrape_ad(url):
 
 
 def scrape_otomoto():
+    MAX_LINKS = 10
     url_template = 'https://www.otomoto.pl/osobowe?page={}'
     data = []
 
-    for page_num in range(1, 2):
+    for page_num in range(1, 999):
         url = url_template.format(page_num)
-        links = _get_ad_links(url)
+        links = get_ad_links(url)
 
         for link in links:
             ad_data = scrape_ad(link)
-            data.append(ad_data)
 
-    return data
+            if ad_data['brand'] and ad_data['model'] and ad_data['year'] and ad_data['mileage'] \
+                    and ad_data['engine_size'] and ad_data['fuel_type'] and ad_data['horse_power']:
+                data.append(ad_data)
+
+            if len(data) >= MAX_LINKS:
+                break
+
+        if len(data) >= MAX_LINKS:
+            break
+
+    if len(data) < MAX_LINKS:
+        print(f"Only {len(data)} offers found. Retrieving additional offers...")
+        additional_links = get_ad_links(url_template.format(page_num + 1))
+
+        for link in additional_links:
+            ad_data = scrape_ad(link)
+
+            if ad_data['brand'] and ad_data['model'] and ad_data['year'] and ad_data['mileage'] \
+                    and ad_data['engine_size'] and ad_data['fuel_type'] and ad_data['horse_power']:
+                data.append(ad_data)
+
+            if len(data) >= MAX_LINKS:
+                break
+
+    return data[:MAX_LINKS]

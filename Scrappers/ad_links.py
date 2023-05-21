@@ -3,21 +3,26 @@ from bs4 import BeautifulSoup
 
 
 def get_ad_links():
+    MAX_LINKS = 10
     links = []
     url_template = 'https://www.olx.pl/motoryzacja/samochody/?page={}'
-    for page_num in range(1, 2):
+    page_num = 1
+    retrieved_links = 0
+
+    while retrieved_links < MAX_LINKS:
         url = url_template.format(page_num)
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "html.parser")
 
-        links = []
-
         for div in soup.find_all("div", {"data-cy": "l-card"}):
             link = div.find("a")["href"]
             if '/d/' in link:
-                links.append(link)
+                links.append('https://www.olx.pl' + link)
+                retrieved_links += 1
 
-        for i in range(len(links)):
-            links[i] = 'https://www.olx.pl' + links[i]
+                if retrieved_links >= MAX_LINKS:
+                    break
 
-    return links
+        page_num += 1
+
+    return links[:MAX_LINKS]
