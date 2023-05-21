@@ -1,0 +1,299 @@
+{
+  "brands": {
+    "toyota": {
+      "values": [
+        "toyota",
+        "Toyota"
+      ],
+      "url_prefix": "toyota"
+    },
+    "honda": {
+      "values": [
+        "honda",
+        "Honda"
+      ],
+      "url_prefix": "honda"
+    },
+    "ford": {
+      "values": [
+        "ford",
+        "Ford"
+      ],
+      "url_prefix": "ford"
+    },
+    "chevrolet": {
+      "values": [
+        "chevrolet",
+        "Chevrolet"
+      ],
+      "url_prefix": "chevrolet"
+    },
+    "aixam": {
+      "values": [
+        "aixam",
+        "aixam"
+      ],
+      "url_prefix": "aixam"
+    },
+    "alfa-romeo": {
+      "values": [
+        "alfa romeo",
+        "Alfa romeo",
+        "Alfa Romeo",
+        "alfa Romeo",
+        "alfaromeo",
+        "AlfaRomeo"
+      ],
+      "url_prefix": "alfa-romeo"
+    },
+    "audi": {
+      "values": [
+        "audi",
+        "Audi"
+      ],
+      "url_prefix": "audi"
+    },
+    "bmw": {
+      "values": [
+        "bmw",
+        "Bmw",
+        "BMW"
+      ],
+      "url_prefix": "bmw"
+    },
+    "cadillac": {
+      "values": [
+        "cadillac",
+        "Cadillac"
+      ],
+      "url_prefix": "cadillac"
+    },
+    "chrysler": {
+      "values": [
+        "chrysler",
+        "Chrysler"
+      ],
+      "url_prefix": "chrysler"
+    },
+    "citroen": {
+      "values": [
+        "citroen",
+        "Citroen"
+      ],
+      "url_prefix": "citroen"
+    },
+    "dacia": {
+      "values": [
+        "dacia",
+        "Dacia"
+      ],
+      "url_prefix": "dacia"
+    },
+    "daewoo": {
+      "values": [
+        "daewoo",
+        "Daewoo"
+      ],
+      "url_prefix": "daewoo"
+    },
+    "daihatsu": {
+      "values": [
+        "daihatsu",
+        "Daihatsu"
+      ],
+      "url_prefix": "daihatsu"
+    },
+    "dodge": {
+      "values": [
+        "dodge",
+        "Dodge"
+      ],
+      "url_prefix": "dodge"
+    },
+    "fiat": {
+      "values": [
+        "fiat",
+        "Fiat"
+      ],
+      "url_prefix": "fiat"
+    },
+    "hyundai": {
+      "values": [
+        "hyundai",
+        "Hyundai"
+      ],
+      "url_prefix": "hyundai"
+    },
+    "infiniti": {
+      "values": [
+        "infiniti",
+        "Infiniti"
+      ],
+      "url_prefix": "infiniti"
+    },
+    "jaguar": {
+      "values": [
+        "jaguar",
+        "Jaguar"
+      ],
+      "url_prefix": "jaguar"
+    },
+    "jeep": {
+      "values": [
+        "jeep",
+        "Jeep"
+      ],
+      "url_prefix": "jeep"
+    },
+    "kia": {
+      "values": [
+        "kia",
+        "Kia"
+      ],
+      "url_prefix": "kia"
+    },
+    "lancia": {
+      "values": [
+        "lancia",
+        "Lancia"
+      ],
+      "url_prefix": "chevrolet"
+    },
+    "lexus": {
+      "values": [
+        "lexus",
+        "Lexus"
+      ],
+      "url_prefix": "lexus"
+    },
+    "mazda": {
+      "values": [
+        "mazda",
+        "Mazda"
+      ],
+      "url_prefix": "mazda"
+    },
+    "mercedes-benz": {
+      "values": [
+        "mercedes benz",
+        "Mercedes benz",
+        "Mercedes Benz",
+        "mercedes Benz"
+      ],
+      "url_prefix": "mercedes-benz"
+    },
+    "mini": {
+      "values": [
+        "mini",
+        "Mini",
+        "MINI"
+      ],
+      "url_prefix": "mini"
+    },
+    "mitsubishi": {
+      "values": [
+        "mitsubishi",
+        "Mitsubishi"
+      ],
+      "url_prefix": "mitsubishi"
+    },
+    "nissan": {
+      "values": [
+        "nissan",
+        "Nissan"
+      ],
+      "url_prefix": "nissan"
+    },
+    "opel": {
+      "values": [
+        "opel",
+        "Opel"
+      ],
+      "url_prefix": "opel"
+    },
+    "peugeot": {
+      "values": [
+        "peugeot",
+        "Peugeot"
+      ],
+      "url_prefix": "peugeot"
+    },
+    "polonez": {
+      "values": [
+        "polonez",
+        "Polonez"
+      ],
+      "url_prefix": "polonez"
+    },
+    "porsche": {
+      "values": [
+        "porsche",
+        "Porsche"
+      ],
+      "url_prefix": "porsche"
+    },
+    "rover": {
+      "values": [
+        "rover",
+        "Rover"
+      ],
+      "url_prefix": "rover"
+    },
+    "saab": {
+      "values": [
+        "saab",
+        "Saab"
+      ],
+      "url_prefix": "saab"
+    },
+    "seat": {
+      "values": [
+        "seat",
+        "Seat"
+      ],
+      "url_prefix": "seat"
+    },
+    "skoda": {
+      "values": [
+        "skoda",
+        "Skoda"
+      ],
+      "url_prefix": "skoda"
+    },
+    "smart": {
+      "values": [
+        "smart",
+        "Smart"
+      ],
+      "url_prefix": "smart"
+    },
+    "subaru": {
+      "values": [
+        "subaru",
+        "Subaru"
+      ],
+      "url_prefix": "subaru"
+    },
+    "suzuki": {
+      "values": [
+        "suzuki",
+        "Suzuki"
+      ],
+      "url_prefix": "suzuki"
+    },
+    "volkswagen": {
+      "values": [
+        "volkswagen",
+        "Volkswagen"
+      ],
+      "url_prefix": "volkswagen"
+    },
+    "volvo": {
+      "values": [
+        "volvo",
+        "Volvo"
+      ],
+      "url_prefix": "volvo"
+    }
+  }
+}
