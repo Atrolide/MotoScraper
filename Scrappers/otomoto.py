@@ -94,6 +94,3 @@ def scrape_otomoto():
             data.append(ad_data)
 
     return data
-
-
-scrape_otomoto()

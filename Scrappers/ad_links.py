@@ -21,5 +21,3 @@ def get_ad_links():
             links[i] = 'https://www.olx.pl' + links[i]
 
     return links
-
-
