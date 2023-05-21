@@ -1,17 +1,21 @@
 import discord
 from discord.ext import commands
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from collections import Counter
 import networkx as nx
 import os
 from dotenv import load_dotenv
+import asyncio
+import json
 
 from Scrappers.single_page import scrapeOlx
 from Scrappers.ad_links import get_ad_links
 from Scrappers.otomoto import scrape_otomoto
 
 intents = discord.Intents.default()
+intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents, help_command=None)
 
@@ -19,6 +23,40 @@ bot = commands.Bot(command_prefix='/', intents=intents, help_command=None)
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+
+
+@bot.event
+async def on_message(message):
+    if bot.user in message.mentions:
+        user = message.author
+        await message.channel.send(f"**Welcome to Moto Scraper {user.mention}!**")
+        await message.channel.send("Choose a website:\n**1. otomoto.pl**\n**2. olx.pl**")
+
+        # Load possibilities from JSON file
+        with open('possibilities.json') as file:
+            possibilities = json.load(file)
+
+        async def get_website_choice():
+            try:
+                website_choice = await bot.wait_for('message', check=check, timeout=30)
+                return website_choice.content.lower()
+            except asyncio.TimeoutError:
+                return None
+
+        def check(m):
+            return m.author == user and m.channel == message.channel
+
+        website_choice = await get_website_choice()
+
+        if website_choice:
+            if website_choice in possibilities['otomoto']:
+                await _scrape_otomoto(message.channel)
+            elif website_choice in possibilities['olx']:
+                await scrape_olx(message.channel)
+            else:
+                await message.channel.send("Invalid choice. Please try again.")
+
+    await bot.process_commands(message)
 
 
 @bot.command(name="help")
@@ -39,6 +77,7 @@ async def say_hello(ctx):
 
 @bot.command(name='olx')
 async def scrape_olx(ctx):
+    await ctx.send("Scraping data from olx.pl...")
     # Call the scrape function
     links = get_ad_links()
     embedList = []
@@ -63,6 +102,7 @@ async def scrape_olx(ctx):
 
 @bot.command(name='otomoto')
 async def _scrape_otomoto(ctx):
+    await ctx.send("Scraping data from otomoto.pl...")
     ad_data = scrape_otomoto()
     embedList = []
 
