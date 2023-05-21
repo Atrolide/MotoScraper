@@ -1,6 +1,3 @@
-import time
-from datetime import timedelta
-
 import discord
 from discord.ext import commands
 from discord import Embed
@@ -17,6 +14,8 @@ import json
 from Scrappers.single_page import scrapeOlx
 from Scrappers.ad_links import get_ad_links
 from Scrappers.otomoto import scrape_otomoto
+
+from Messages.chart_message import generate_chart_message
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -162,34 +161,6 @@ async def _scrape_otomoto(ctx, car_brand):
 
 
 # CHARTS
-async def generate_chart_message(ctx, estimated_time):
-    start_time = time.time()
-    previous_message = None
-    remaining_time = estimated_time
-
-    while True:
-        elapsed_time = time.time() - start_time
-
-        if remaining_time <= 0:
-            message = "Generating your chart is taking longer than estimated :c\n\nPlease wait patiently! :timer:"
-            await previous_message.edit(content=message)
-            break
-
-        remaining_time = max(0, estimated_time - elapsed_time)
-
-        message = f":chart_with_upwards_trend: Generating the chart...\n\nEstimated Time: {timedelta(seconds=int(remaining_time))} :hourglass_flowing_sand:\n\nPlease wait patiently! :timer:"
-
-        if previous_message is None:
-            previous_message = await ctx.send(message)
-        else:
-            await previous_message.edit(content=message)
-
-        # Delay the loop to avoid excessive updates
-        await asyncio.sleep(1)  # Adjust the delay interval as needed
-
-    return previous_message
-
-
 def preprocess_data(ad_data):
     data = []
 
@@ -252,7 +223,7 @@ async def scrape_olxchart(ctx):
     plt.savefig('bar_chart.png')
 
     # Send the plot as a message
-    with open('bar_chart.png', 'rb') as f:
+    with open('Images/bar_chart.png', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
         await previous_message.edit(content=":white_check_mark: Chart generation completed!")
@@ -312,10 +283,10 @@ async def scrape_olxscatter(ctx):
     plt.subplots_adjust(left=0.2, bottom=0.1)
 
     # Save the plot to a file
-    plt.savefig('scatter_plot.png')
+    plt.savefig('Images/scatter_plot.png')
 
     # Send the plot as a message
-    with open('scatter_plot.png', 'rb') as f:
+    with open('Images/scatter_plot.png', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
         await previous_message.edit(content=":white_check_mark: Chart generation completed!")
@@ -366,10 +337,10 @@ async def scrape_olxnetwork(ctx):
     # Remove the axes and show the plot
     plt.axis('off')
 
-    plt.savefig('network_plot.png')
+    plt.savefig('Images/network_plot.png')
 
     # Send the plot as a message
-    with open('network_plot.png', 'rb') as f:
+    with open('Images/network_plot.png', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
         await previous_message.edit(content=":white_check_mark: Chart generation completed!")
@@ -412,9 +383,9 @@ async def scrape_otomotochart(ctx):
     ax = plt.gca()
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
-    plt.savefig('otomoto_bar_chart.png')
+    plt.savefig('Images/otomoto_bar_chart.png')
 
-    with open('otomoto_bar_chart.png', 'rb') as f:
+    with open('Images/otomoto_bar_chart.png', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
         await previous_message.edit(content=":white_check_mark: Chart generation completed!")
@@ -448,9 +419,9 @@ async def scrape_otomotopiechart(ctx):
 
     plt.title('Distribution of Cars by Brand (Otomoto)')
 
-    plt.savefig('otomoto_pie_chart.png')
+    plt.savefig('Images/otomoto_pie_chart.png')
 
-    with open('otomoto_pie_chart.png', 'rb') as f:
+    with open('Images/otomoto_pie_chart.png', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
         await previous_message.edit(content=":white_check_mark: Chart generation completed!")
