@@ -178,7 +178,9 @@
         "mercedes benz",
         "Mercedes benz",
         "Mercedes Benz",
-        "mercedes Benz"
+        "mercedes Benz",
+        "mercedes",
+        "Mercedes"
       ],
       "url_prefix": "mercedes-benz"
     },

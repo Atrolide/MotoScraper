@@ -1,7 +1,6 @@
 from Messages.chart_message import generate_chart_message
 import discord
 from Scrappers.Otomoto.otomoto import scrape_otomoto
-from Scrappers.data_processor import preprocess_data
 from collections import Counter
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker

@@ -9,6 +9,9 @@ import json
 from Charts.olx_charts import *
 from Charts.otomoto_charts import *
 
+from Chatbot.olx_output import olx_output
+from Chatbot.otomoto_output import otomoto_output
+from Chatbot.help import help_display
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -83,14 +86,7 @@ async def on_message(message):
 
 @bot.command(name="help")
 async def bot_help(ctx):
-    embed = discord.Embed(title='Bot Help', description='List of available commands:', color=discord.Color.blue())
-    embed.set_image(url="https://cdn.discordapp.com/attachments/1090484337897648178/1109444270261284934/logov2.png")
-    embed.add_field(name='/olxchart', value='Chart for OLX', inline=False)
-    embed.add_field(name='/olxpiechart', value='Pie Chart for OLX', inline=False)
-    embed.add_field(name='/otomotochart', value='Chart for Otomoto', inline=False)
-    embed.add_field(name='/otomotopiechart', value='Pie Chart for Otomoto', inline=False)
-
-    await ctx.send(embed=embed)
+    await help_display(ctx)
 
 
 @bot.command(name='jp2')
@@ -103,55 +99,12 @@ async def say_hello(ctx):
 
 @bot.command(name='olx')
 async def scrape_olx(ctx, car_brand):
-    await ctx.send("...Scraping data from olx.pl...")
-    # Call the scrape function
-    links = get_ad_links(car_brand, 10)
-    embedList = []
-
-    for link in links:
-        brand, model, year, mileage, engine_size, fuel_type, horse_power, price, images = scrapeOlx(link)
-        embed = discord.Embed(title=f"{brand} {model} ({year})",
-                              description=f"Mileage: {mileage} \nEngine Size: {engine_size}\nFuel Type: {fuel_type}\nHorse Power: {horse_power}\nPrice: {price}")
-
-        embed.add_field(name="Ad Link:", value=link)
-        # Loop through the images and add a new image field for each one
-        for image in images:
-            embed.set_image(url=image)
-            embedList.append(embed)
-            if len(embedList) == 10:
-                await ctx.send(embeds=embedList)
-                embedList = []
-
-    if embedList:
-        await ctx.send(embeds=embedList)
+    await olx_output(ctx, car_brand)
 
 
 @bot.command(name='otomoto')
 async def _scrape_otomoto(ctx, car_brand):
-    await ctx.send("...Scraping data from otomoto.pl...")
-    ad_data = scrape_otomoto(car_brand, 10)
-    embedList = []
-
-    for item in ad_data:
-        if all(value for value in item.values()):
-            title = f"{item['brand']} {item['model']} ({item['year']})"
-            description = f"Mileage: {item['mileage']}\n" \
-                          f"Engine Size: {item['engine_size']}\n" \
-                          f"Fuel Type: {item['fuel_type']}\n" \
-                          f"Horse Power: {item['horse_power']}\n" \
-                          f"Price: {item['price']}"
-
-            embed = discord.Embed(title=title, description=description.strip())
-            embed.add_field(name="Ad Link:", value=item['ad_link'])
-            embed.set_image(url=item['src'])  # Add the image using the src value
-
-            embedList.append(embed)
-            if len(embedList) == 10:
-                await ctx.send(embeds=embedList)
-                embedList = []
-
-    if embedList:
-        await ctx.send(embeds=embedList)
+    await otomoto_output(ctx, car_brand)
 
 
 # CHARTS
