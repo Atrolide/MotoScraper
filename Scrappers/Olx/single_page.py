@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import re
 
 def scrapeOlx(link):
     brand, model, year, mileage, engine_size, fuel_type, horse_power, price = [], [], [], [], [], [], [], []
@@ -9,6 +9,7 @@ def scrapeOlx(link):
     soup = BeautifulSoup(response.text, 'html.parser')
     brand = soup.find_all('a', class_='css-tyi2d1')[3].text.strip()
     price = soup.find_all('h3', class_='css-ddweki er34gjf0')[0].text.strip()
+    price = price.replace("zł", "PLN")
     elements = soup.find_all('p', class_='css-b5m1rv er34gjf0')
     for element in elements:
         if 'Model: ' in element.text:
@@ -35,11 +36,14 @@ def scrapeOlx(link):
             fuel_type = element.text.strip()
             word_to_remove = "Paliwo: "
             fuel_type = fuel_type.replace(word_to_remove, "")
+            fuel_type = re.sub(r'\bbenzyna\b', 'Gasoline', fuel_type, flags=re.IGNORECASE)
+            fuel_type = re.sub(r'\bhybryda\b', 'hybrid', fuel_type, flags=re.IGNORECASE)
 
         if 'Moc silnika: ' in element.text:
             horse_power = element.text.strip()
             word_to_remove = "Moc silnika: "
             horse_power = horse_power.replace(word_to_remove, "")
+
 
         # Find all image tags
     img_tags = soup.find_all('img')
@@ -53,3 +57,6 @@ def scrapeOlx(link):
             break
 
     return [brand, model, year, mileage, engine_size, fuel_type, horse_power, price, src_list]
+
+
+scrapeOlx('https://www.olx.pl/d/oferta/fiat-uno-100-tys-przebiegu-od-nowosci-w-1-rekach-CID5-IDUsGu9.html')
