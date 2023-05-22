@@ -108,7 +108,7 @@ async def _scrape_otomoto(ctx, car_brand):
 
 
 # CHARTS
-@bot.command(name='olxbarchart')
+@bot.command(name='olxchart')
 async def scrape_olxchart(ctx):
     await olx_bar_chart(ctx)
 
@@ -118,7 +118,7 @@ async def scrape_olxchart(ctx):
     await olx_pie_chart(ctx)
 
 
-@bot.command(name='otomotobarchart')
+@bot.command(name='otomotochart')
 async def scrape_otomotochart(ctx):
     await otomoto_bar_chart(ctx)
 

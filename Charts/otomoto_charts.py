@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 async def otomoto_bar_chart(ctx):
-    estimated_time = 10  # Estimated time in seconds
+    estimated_time = 80  # Estimated time in seconds
 
     # Generate the chart message and get the previous message object
     previous_message = await generate_chart_message(ctx, estimated_time)
 
-    ad_data = scrape_otomoto(None, 10)
+    ad_data = scrape_otomoto(None, 50)
     data = []
 
     for item in ad_data:
@@ -49,12 +49,12 @@ async def otomoto_bar_chart(ctx):
     plt.show()
 
 async def otomoto_pie_chart(ctx):
-    estimated_time = 10  # Estimated time in seconds
+    estimated_time = 80  # Estimated time in seconds
 
     # Generate the chart message and get the previous message object
     previous_message = await generate_chart_message(ctx, estimated_time)
 
-    ad_data = scrape_otomoto(None, 10)
+    ad_data = scrape_otomoto(None, 50)
     data = []
 
     for item in ad_data:

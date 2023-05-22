@@ -1,8 +1,11 @@
 import discord
 from Scrappers.Otomoto.otomoto import scrape_otomoto
+from Messages.chart_message import generate_chart_message
 
 async def otomoto_output(ctx, car_brand):
-    await ctx.send("...Scraping data from otomoto.pl...")
+    estimated_time = 10  # Estimated time in seconds
+    # Generate the chart message and get the previous message object
+    previous_message = await generate_chart_message(ctx, estimated_time)
     ad_data = scrape_otomoto(car_brand, 10)
     embedList = []
 
@@ -24,5 +27,6 @@ async def otomoto_output(ctx, car_brand):
                 await ctx.send(embeds=embedList)
                 embedList = []
 
+    await previous_message.edit(content=":white_check_mark: Scraping completed!")
     if embedList:
         await ctx.send(embeds=embedList)

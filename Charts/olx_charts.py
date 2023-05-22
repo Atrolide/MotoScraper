@@ -9,13 +9,13 @@ import matplotlib.ticker as ticker
 
 
 async def olx_pie_chart(ctx):
-    estimated_time = 10  # Estimated time in seconds
+    estimated_time = 80  # Estimated time in seconds
 
     # Generate the chart message and get the previous message object
     previous_message = await generate_chart_message(ctx, estimated_time)
 
     # Call the scrape function
-    links = get_ad_links(None, 10)
+    links = get_ad_links(None, 50)
     ad_data = [scrapeOlx(link) for link in links]
     data = preprocess_data(ad_data)
 
@@ -51,13 +51,13 @@ async def olx_pie_chart(ctx):
 
 
 async def olx_bar_chart(ctx):
-    estimated_time = 10  # Estimated time in seconds
+    estimated_time = 80  # Estimated time in seconds
 
     # Generate the chart message and get the previous message object
     previous_message = await generate_chart_message(ctx, estimated_time)
 
     # Call the scrape function
-    links = get_ad_links(None, 10)
+    links = get_ad_links(None, 50)
     ad_data = [scrapeOlx(link) for link in links]
     data = preprocess_data(ad_data)
 

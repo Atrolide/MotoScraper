@@ -1,9 +1,12 @@
 import discord
 from Scrappers.Olx.single_page import scrapeOlx
 from Scrappers.Olx.ad_links import get_ad_links
+from Messages.chart_message import generate_chart_message
 
 async def olx_output(ctx, car_brand):
-    await ctx.send("...Scraping data from olx.pl...")
+    estimated_time = 10  # Estimated time in seconds
+    # Generate the chart message and get the previous message object
+    previous_message = await generate_chart_message(ctx, estimated_time)
     # Call the scrape function
     links = get_ad_links(car_brand, 10)
     embedList = []
@@ -22,5 +25,7 @@ async def olx_output(ctx, car_brand):
                 await ctx.send(embeds=embedList)
                 embedList = []
 
+
+    await previous_message.edit(content=":white_check_mark: Scraping completed!")
     if embedList:
         await ctx.send(embeds=embedList)
