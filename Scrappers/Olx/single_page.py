@@ -59,4 +59,3 @@ def scrapeOlx(link):
     return [brand, model, year, mileage, engine_size, fuel_type, horse_power, price, src_list]
 
 
-scrapeOlx('https://www.olx.pl/d/oferta/fiat-uno-100-tys-przebiegu-od-nowosci-w-1-rekach-CID5-IDUsGu9.html')
