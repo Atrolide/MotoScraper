@@ -69,9 +69,8 @@ MotoScraper is a command-based bot that uses the prefix `/`. Here are the availa
 
 ### Chatbot Commands:
 
-* **@MotoScraper** -> In order to start chatting you have to ping the bot using this command
-
 * **/help** -> Displays the help message with a list of available commands
+* **@MotoScraper** -> We have to ping the bot using this command first to be asked which website do we want to retrieve the data from
 * **/olx** -> Scrapes car listings from olx.pl based on the provided car brand
 * **/otomoto** -> Scrapes car listings from otomoto.pl based on the provided car brand
 
