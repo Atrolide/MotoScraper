@@ -34,12 +34,18 @@ Before using MotoScraper, make sure you have the following prerequisites install
 - [Python](https://www.python.org/downloads/) (version 3.9 or above)
 - [Git](https://git-scm.com/downloads)
 
-Move to the directory where you want to clone your project to, click righ mouse button and select *Git Bash here*
+Move to the directory where you want to clone your project to, click righ mouse button and select `Git Bash here`
 
 Then, to clone the repository, run the following command:
 ```shell
 git clone https://github.com/Atrolide/MotoScraper.git
 ```
+
+Make sure to install necessary requirements.
+Navigate to the project directory in the terminal and execute the following command:
+```shell
+pip install -r requirements.txt
+``` 
 
 Next, [generate a Discord Bot token](https://discordpy.readthedocs.io/en/stable/discord.html) by following the instructions provided.
 
